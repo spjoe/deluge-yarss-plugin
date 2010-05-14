@@ -165,6 +165,10 @@ class Core(CorePluginBase):
         (dist,url,regex,show,quality,active,search,date) = self.config["abos"][name]
         self.config["abos"][name] = (dist,url,regex,show,quality,True,search,date)
 
+    @export
+    def edit_feed(self,name,feed):
+        self.config["abos"][name] = feed
+
     def update_handler(self):
         log.debug("update handler executed")
         for key in self.config["abos"].keys():

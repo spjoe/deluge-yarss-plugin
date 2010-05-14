@@ -51,16 +51,20 @@ class EditDialog():
     def __init__(self):
         pass
         
-    def show(self, feed=None):
+    def show(self, name, feed):
         self.glade = gtk.glade.XML(get_resource("dialog_edit.glade"))
         self.glade.signal_autoconnect({
-            "on_cancel":self.on_cancel
+            "on_cancel":self.on_cancel,
+            "on_button_edit_clicked":self.on_button_edit_clicked
         })
         self.dialog = self.glade.get_widget("dialog_edit")
         self.dialog.set_transient_for(component.get("Preferences").pref_dialog)
 
         self.load_feed(feed)
+        self.feed = feed
+        self.name = name
         self.dialog.run()
+
 
     def load_feed(self, feed):
         self.glade.get_widget("text_dist").set_text(feed[0])
@@ -71,7 +75,19 @@ class EditDialog():
         self.glade.get_widget("checkbox_active").set_active(feed[5])
         self.glade.get_widget("checkbox_any").set_active(feed[6])
 
-        
+    def on_button_edit_clicked(self, Event=None):
+        log.debug("on_button_edit_clicked function")
+        client.yarss.edit_feed(self.name, (
+            self.glade.get_widget("text_dist").get_text(),
+            self.glade.get_widget("text_url").get_text(),
+            self.glade.get_widget("text_regex").get_text(),
+            self.glade.get_widget("text_show").get_text(),
+            self.glade.get_widget("text_quality").get_text(),
+            self.glade.get_widget("checkbox_active").get_active(),
+            self.glade.get_widget("checkbox_any").get_active(),
+            self.feed[7]))    
+        self.dialog.destroy()    
+
     def on_cancel(self, Event=None):
         self.dialog.destroy()
 
@@ -251,7 +267,7 @@ class GtkUI(GtkPluginBase):
                     client.yarss.enable_feed(feed_name)
                     self.store.set_value(tree_id,1,True)
             else:
-                self.editdialog.show(self.abos[feed_name])
+                self.editdialog.show(feed_name, self.abos[feed_name])
 
     def on_apply_prefs(self):
         log.debug("applying prefs for yarss ladida")
