@@ -1,0 +1,6 @@
+build/*
+dist/*
+yarss.egg-info/*
+*.pyc
+*.pyo
+*.bak
