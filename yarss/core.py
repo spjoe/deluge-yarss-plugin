@@ -168,6 +168,10 @@ class Core(CorePluginBase):
     @export
     def edit_feed(self,name,feed):
         self.config["abos"][name] = feed
+        
+    def test_lol(self,la,di,da):
+        pass
+    
 
     def update_handler(self):
         log.debug("update handler executed")
