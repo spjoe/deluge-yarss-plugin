@@ -41,7 +41,7 @@
             </child>
             <child>
               <widget class="GtkButton" id="button_add_feed">
-                <property name="label" translatable="yes">Add Costum Feed</property>
+                <property name="label" translatable="yes">Add Custom Feed</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
